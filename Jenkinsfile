@@ -35,8 +35,8 @@ pipeline {
                     bat """
                       ibmcloud login --apikey ${IBM_CLI_API_KEY} -r jp
                       ibmcloud cr login
-                      docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME_APP1}:latest
-                      docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME_APP2}:latest
+                      docker push jp.icr.io/config-manage/app1-image:latest
+                     docker push jp.icr.io/config-manage/app2-image:latest
                     """
                 }
             }
