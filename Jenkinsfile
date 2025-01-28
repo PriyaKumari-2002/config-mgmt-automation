@@ -19,8 +19,8 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image locally using the Dockerfile in your repository
-                    bat "docker build -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ./Docker/app1"
-                    bat "docker build -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ./Docker/app2"
+                    bat "docker build -f Docker/app1/Dockerfile -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ."
+                    bat "docker build -f Docker/app2/Dockerfile -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ."
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Log in to IBM Cloud using the API key, set the region to 'jp' for Japan
-                    bat """
+                    bat"""
                     ibmcloud login --apikey ${IBM_CLI_API_KEY} -r jp
                     ibmcloud cr login  // Log into IBM Cloud Container Registry
                     docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest  // Push the image to IBM Cloud
@@ -38,19 +38,6 @@ pipeline {
                 }
             }
         }
-
-        // Stage to deploy the Docker image to IBM Cloud Code Engine
-        stage('Deploy to IBM Cloud Code Engine') {
-            steps {
-                script {
-                    // Deploy the built Docker image to IBM Cloud Code Engine as a new application
-                    bat """
-                    ibmcloud ce app create --name config-app \
-                    --image ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest \
-                    --cpu 1 --memory 2G  // Optional: Adjust CPU and Memory as required
-                    """
-                }
-            }
-        }
     }
 }
+
