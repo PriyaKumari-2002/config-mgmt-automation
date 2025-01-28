@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image locally using the Dockerfile in your repository
-                    bat "docker build -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ."
+                    bat "docker build -t ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest ./docker"
                 }
             }
         }
