@@ -30,11 +30,12 @@ pipeline {
             steps {
                 script {
                     // Log in to IBM Cloud using the API key, set the region to 'jp' for Japan
-                    bat"""
-                    ibmcloud login --apikey ${IBM_CLI_API_KEY} -r jp
-                    ibmcloud cr login  // Log into IBM Cloud Container Registry
-                    docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest  // Push the image to IBM Cloud
-                    """
+                bat """
+                  ibmcloud login --apikey ${IBM_CLI_API_KEY} -r jp
+                  ibmcloud cr login
+                  docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:latest
+                """
+
                 }
             }
         }
